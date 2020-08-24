@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+
+class CustomColors {
+  static const kPrimaryColor = Color(0xff075E54);
+  static const kSecondaryColor = Color(0xff25D366);
+  static const kLightColor = Colors.white;
+  static const kTickColor = Color(0xff34B7F1);
+  static const kChatBackgroundColor = Color(0xffDCF8C6);
+}
+
+class CustomTextStyle {
+  static const tabBarTextStyle = TextStyle(
+    fontSize: 18,
+  );
+}
+     
