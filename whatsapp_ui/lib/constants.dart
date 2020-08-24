@@ -4,6 +4,7 @@ class CustomColors {
   static const kPrimaryColor = Color(0xff075E54);
   static const kSecondaryColor = Color(0xff25D366);
   static const kLightColor = Colors.white;
+  static const kGreyColor = Color(0xffF2F0EC);
   static const kTickColor = Color(0xff34B7F1);
   static const kChatBackgroundColor = Color(0xffDCF8C6);
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:whatsapp_ui/constants.dart';
+import 'package:whatsapp_ui/data/chat_data.dart';
+import 'package:whatsapp_ui/functions/custom_function.dart';
+import 'package:whatsapp_ui/model/chat.dart';
 import 'package:whatsapp_ui/model/message.dart';
+import 'package:whatsapp_ui/provider/chat_provider.dart';
 import 'package:whatsapp_ui/widgets/chat_message_widget.dart';
 
 class ChatScreen extends StatefulWidget {
-  final List<Message> messagesList;
-  final String friendName;
-  final String imageUrl;
-  ChatScreen({this.messagesList, this.friendName, this.imageUrl});
-
+  ChatScreen();
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -16,6 +17,9 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   ScrollController _scrollController =
       ScrollController(initialScrollOffset: 500.0);
+  List<Message> messagesList = [];
+  String friendName;
+  String imageUrl;
 
   @override
   void dispose() {
@@ -27,9 +31,9 @@ class _ChatScreenState extends State<ChatScreen> {
     return Expanded(
       child: ListView.builder(
         controller: _scrollController,
-        itemCount: widget.messagesList.length,
+        itemCount: messagesList.length,
         itemBuilder: (ctx, index) {
-          return ChatMessageWidget(widget.messagesList[index]);
+          return ChatMessageWidget(messagesList[index]);
         },
       ),
     );
@@ -37,30 +41,40 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: Container(
-        height: screenHeight,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              'assets/images/background.jpg',
-            ),
-            fit: BoxFit.fill,
+    final Chat chat =
+        chats[Provider.of<ChatProvider>(context).currentChatIndex];
+    messagesList = chat.messagesList;
+    friendName = chat.memberTwoName;
+    imageUrl = chat.memberTwoProfilePicUrl;
+
+    return CustomFunctions.isMobile(context)
+        ? Scaffold(
+            body: _buildChat(context),
+          )
+        : _buildChat(context);
+  }
+
+  Container _buildChat(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/images/background.jpg',
           ),
+          fit: BoxFit.fill,
         ),
-        child: Column(
-          children: [
-            _buildMessagesList(context),
-            _buildMessageComposer(screenHeight)
-          ],
-        ),
+      ),
+      child: Column(
+        children: [
+          _buildAppBar(context),
+          _buildMessagesList(context),
+          _buildMessageComposer()
+        ],
       ),
     );
   }
 
-  Widget _buildMessageComposer(double screenHeight) {
+  Widget _buildMessageComposer() {
     final textField = Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -120,32 +134,49 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   AppBar _buildAppBar(BuildContext context) {
+    bool isMobile = CustomFunctions.isMobile(context);
     return AppBar(
-      backgroundColor: CustomColors.kPrimaryColor,
+      backgroundColor:
+          isMobile ? CustomColors.kPrimaryColor : CustomColors.kGreyColor,
       automaticallyImplyLeading: false,
       titleSpacing: 0.0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
+          CustomFunctions.isMobile(context)
+              ? IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              : SizedBox(
+                  width: 10.0,
+                ),
           CircleAvatar(
             radius: 20.0,
-            backgroundImage: AssetImage(widget.imageUrl),
+            backgroundImage: AssetImage(imageUrl),
           ),
           SizedBox(width: 10.0),
-          Text(widget.friendName),
+          Text(
+            friendName,
+            style: TextStyle(
+                color: isMobile ? CustomColors.kLightColor : Colors.black),
+          ),
         ],
       ),
       actions: [
-        Icon(Icons.video_call),
+        Icon(Icons.video_call,
+            color:
+                isMobile ? CustomColors.kLightColor : CustomColors.kGreyColor),
         SizedBox(width: 15.0),
-        Icon(Icons.call),
+        Icon(Icons.call,
+            color:
+                isMobile ? CustomColors.kLightColor : CustomColors.kGreyColor),
         SizedBox(width: 15.0),
-        Icon(Icons.more_vert)
+        Icon(Icons.more_vert,
+            color:
+                isMobile ? CustomColors.kLightColor : CustomColors.kGreyColor)
       ],
     );
   }
