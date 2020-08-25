@@ -168,15 +168,15 @@ class _ChatScreenState extends State<ChatScreen> {
       actions: [
         Icon(Icons.video_call,
             color:
-                isMobile ? CustomColors.kLightColor : CustomColors.kGreyColor),
+                isMobile ? CustomColors.kLightColor : CustomColors.kIconColor),
         SizedBox(width: 15.0),
         Icon(Icons.call,
             color:
-                isMobile ? CustomColors.kLightColor : CustomColors.kGreyColor),
+                isMobile ? CustomColors.kLightColor : CustomColors.kIconColor),
         SizedBox(width: 15.0),
         Icon(Icons.more_vert,
             color:
-                isMobile ? CustomColors.kLightColor : CustomColors.kGreyColor)
+                isMobile ? CustomColors.kLightColor : CustomColors.kIconColor)
       ],
     );
   }
