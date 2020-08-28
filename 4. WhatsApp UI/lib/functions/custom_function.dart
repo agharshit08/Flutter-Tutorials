@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class CustomFunctions {
-  static bool isMobile(BuildContext context) {
+  static bool isMobile(BuildContext context){
     return MediaQuery.of(context).size.width < 1200;
   }
 }

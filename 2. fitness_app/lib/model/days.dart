@@ -1,4 +1,4 @@
-class Day {
+wclass Day {
   String dayName;
   String dayNumber;
   Day(this.dayName, this.dayNumber);

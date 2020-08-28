@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ChatProvider(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'WhatsApp Tutorial',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.teal,

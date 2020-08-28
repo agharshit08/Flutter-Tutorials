@@ -10,7 +10,7 @@ class ChatList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) => Divider(
+      separatorBuilder: (BuildContext context, int index) => Divider(
         color: Colors.grey,
         thickness: 0.2,
       ),
@@ -19,7 +19,6 @@ class ChatList extends StatelessWidget {
         final messagesList = chats[index].messagesList;
         final Message lastMessage = messagesList[messagesList.length - 1];
         return ListTile(
-          contentPadding: EdgeInsets.only(top: 10.0, left: 10.0, right: 15.0),
           leading: CircleAvatar(
             radius: 25,
             backgroundImage: AssetImage(chats[index].memberTwoProfilePicUrl),
@@ -32,9 +31,7 @@ class ChatList extends StatelessWidget {
             margin: EdgeInsets.only(top: 5.0),
             child: Text(
               lastMessage.text,
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
+              style: TextStyle(fontSize: 15.0),
             ),
           ),
           trailing: Text(
@@ -47,7 +44,11 @@ class ChatList extends StatelessWidget {
             if (CustomFunctions.isMobile(context)) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ChatScreen()),
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ChatScreen();
+                  },
+                ),
               );
             }
           },
